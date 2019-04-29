@@ -56,7 +56,6 @@ var tilemap = layer_tilemap_get_id(lay)
 
 var sound
 
-var path = path_add()
 var map
 if (Fly && !Swim && !Dig) {
 	map = global.FlyMap
@@ -101,62 +100,62 @@ if (!Selected) {
 	}
 } else {
 	if (!Tolled && position_meeting(roundedX, roundedY, obj_Toll) && (mouse_check_button_pressed(mb_left) || mouse_check_button_pressed(mb_right))) {
-		if (mp_grid_path(map, path, x, y, roundedX, roundedY, true)) {
+		if (mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			Goal = "Toll"
 			GoalTarget = instance_nearest(roundedX, roundedY, obj_Toll)
 			GoalX = roundedX
 			GoalY = roundedY
-			path_set_kind(path, 1)
-			path_set_precision(path, 4)
-			path_start(path, spd, path_action_stop, true)
+			path_set_kind(Path, 1)
+			path_set_precision(Path, 4)
+			path_start(Path, spd, path_action_stop, true)
 		}
 	} else if (!Tolled && !position_meeting(roundedX, roundedY, id) && position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_left)) {
-		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, path, x, y, roundedX, roundedY, true)) {
+		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			if (Merged && Carrying == -1) {
 				Goal = "Pickup"
 				GoalTarget = instance_nearest(roundedX, roundedY, par_Character)
 				GoalX = roundedX
 				GoalY = roundedY
-				path_set_kind(path, 1)
-				path_set_precision(path, 4)
-				path_start(path, spd, path_action_stop, true)
+				path_set_kind(Path, 1)
+				path_set_precision(Path, 4)
+				path_start(Path, spd, path_action_stop, true)
 			}
 		}
 	} else if (!Tolled && !position_meeting(roundedX, roundedY, id) && position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_right)) {
-		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, path, x, y, roundedX, roundedY, true)) {
+		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			if (!Merged) {
 				Goal = "Merge"
 				GoalTarget = instance_nearest(roundedX, roundedY, par_Character)
 				GoalX = roundedX
 				GoalY = roundedY
-				path_set_kind(path, 1)
-				path_set_precision(path, 4)
-				path_start(path, spd, path_action_stop, true)
+				path_set_kind(Path, 1)
+				path_set_precision(Path, 4)
+				path_start(Path, spd, path_action_stop, true)
 			} else if (Carrying == -1) {
 				Goal = "Unmerge"
 				GoalTarget = instance_nearest(roundedX, roundedY, par_Character)
 				GoalX = roundedX
 				GoalY = roundedY
-				path_set_kind(path, 1)
-				path_set_precision(path, 4)
-				path_start(path, spd, path_action_stop, true)
+				path_set_kind(Path, 1)
+				path_set_precision(Path, 4)
+				path_start(Path, spd, path_action_stop, true)
 			}
 		}
 	} else if (!position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_left)) {
-		mp_grid_path(map, path, x, y, roundedX, roundedY, true)
-		path_set_kind(path, 1)
-		path_set_precision(path, 4)
-		path_start(path, spd, path_action_stop, true)
+		mp_grid_path(map, Path, x, y, roundedX, roundedY, true)
+		path_set_kind(Path, 1)
+		path_set_precision(Path, 4)
+		path_start(Path, spd, path_action_stop, true)
 	} else if (!position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_right)) {
-		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, path, x, y, roundedX, roundedY, true)) {
+		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			if (Carrying > -1) {
 				Goal = "Drop"
 				GoalTarget = Carrying
 				GoalX = roundedX
 				GoalY = roundedY
-				path_set_kind(path, 1)
-				path_set_precision(path, 4)
-				path_start(path, spd, path_action_stop, true)
+				path_set_kind(Path, 1)
+				path_set_precision(Path, 4)
+				path_start(Path, spd, path_action_stop, true)
 			}
 		}
 	}
@@ -218,25 +217,25 @@ if (point_distance(x, y, GoalX, GoalY) < 8) {
 	}
 	if (Goal != "Pickup") {
 		if (tilemap_get_at_pixel(tilemap, x, y + 100) == 0 && !position_meeting(GoalX, GoalY + 100, par_Character) && !position_meeting(GoalX, GoalY + 100, obj_Toll)) {
-			mp_grid_path(map, path, x, y, x, y + 100, true)
-			path_set_kind(path, 1)
-			path_set_precision(path, 4)
-			path_start(path, spd, path_action_stop, true)
+			mp_grid_path(map, Path, x, y, x, y + 100, true)
+			path_set_kind(Path, 1)
+			path_set_precision(Path, 4)
+			path_start(Path, spd, path_action_stop, true)
 		} else if (tilemap_get_at_pixel(tilemap, x, y - 100) == 0 && !position_meeting(GoalX, GoalY - 100, par_Character) && !position_meeting(GoalX, GoalY - 100, obj_Toll)) {
-			mp_grid_path(map, path, x, y, x, y - 100, true)
-			path_set_kind(path, 1)
-			path_set_precision(path, 4)
-			path_start(path, spd, path_action_stop, true)
+			mp_grid_path(map, Path, x, y, x, y - 100, true)
+			path_set_kind(Path, 1)
+			path_set_precision(Path, 4)
+			path_start(Path, spd, path_action_stop, true)
 		} else if (tilemap_get_at_pixel(tilemap, x + 100, y) == 0 && !position_meeting(GoalX + 100, GoalY, par_Character) && !position_meeting(GoalX + 100, GoalY, obj_Toll)) {
-			mp_grid_path(map, path, x, y, x + 100, y, true)
-			path_set_kind(path, 1)
-			path_set_precision(path, 4)
-			path_start(path, spd, path_action_stop, true)
+			mp_grid_path(map, Path, x, y, x + 100, y, true)
+			path_set_kind(Path, 1)
+			path_set_precision(Path, 4)
+			path_start(Path, spd, path_action_stop, true)
 		} else if (tilemap_get_at_pixel(tilemap, x - 100, y) == 0 && !position_meeting(GoalX - 100, GoalY, par_Character) && !position_meeting(GoalX - 100, GoalY, obj_Toll)) {
-			mp_grid_path(map, path, x, y, x - 100, y, true)
-			path_set_kind(path, 1)
-			path_set_precision(path, 4)
-			path_start(path, spd, path_action_stop, true)
+			mp_grid_path(map, Path, x, y, x - 100, y, true)
+			path_set_kind(Path, 1)
+			path_set_precision(Path, 4)
+			path_start(Path, spd, path_action_stop, true)
 		}
 	}
 	Goal = ""

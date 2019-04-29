@@ -16,3 +16,5 @@ Dig = false
 
 FrameCount = 0
 Flip = 1
+
+Path = path_add()
