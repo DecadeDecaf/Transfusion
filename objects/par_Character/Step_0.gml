@@ -85,6 +85,8 @@ if (!Selected) {
 					Selected = false
 					Goal = ""
 					path_end()
+					path_delete(Path)
+					Path = path_add()
 					x = 50 + (round((x - 50) / 100) * 100)
 					y = 50 + (round((y - 50) / 100) * 100)
 				}
@@ -100,6 +102,8 @@ if (!Selected) {
 	}
 } else {
 	if (!Tolled && position_meeting(roundedX, roundedY, obj_Toll) && (mouse_check_button_pressed(mb_left) || mouse_check_button_pressed(mb_right))) {
+		path_delete(Path)
+		Path = path_add()
 		if (mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			Goal = "Toll"
 			GoalTarget = instance_nearest(roundedX, roundedY, obj_Toll)
@@ -110,6 +114,8 @@ if (!Selected) {
 			path_start(Path, spd, path_action_stop, true)
 		}
 	} else if (!Tolled && !position_meeting(roundedX, roundedY, id) && position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_left)) {
+		path_delete(Path)
+		Path = path_add()
 		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			if (Merged && Carrying == -1) {
 				Goal = "Pickup"
@@ -122,6 +128,8 @@ if (!Selected) {
 			}
 		}
 	} else if (!Tolled && !position_meeting(roundedX, roundedY, id) && position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_right)) {
+		path_delete(Path)
+		Path = path_add()
 		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			if (!Merged) {
 				Goal = "Merge"
@@ -142,11 +150,15 @@ if (!Selected) {
 			}
 		}
 	} else if (!position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_left)) {
+		path_delete(Path)
+		Path = path_add()
 		mp_grid_path(map, Path, x, y, roundedX, roundedY, true)
 		path_set_kind(Path, 1)
 		path_set_precision(Path, 4)
 		path_start(Path, spd, path_action_stop, true)
 	} else if (!position_meeting(roundedX, roundedY, par_Character) && mouse_check_button_pressed(mb_right)) {
+		path_delete(Path)
+		Path = path_add()
 		if (tilemap_get_at_pixel(tilemap, roundedX, roundedY) == 0 && mp_grid_path(map, Path, x, y, roundedX, roundedY, true)) {
 			if (Carrying > -1) {
 				Goal = "Drop"
